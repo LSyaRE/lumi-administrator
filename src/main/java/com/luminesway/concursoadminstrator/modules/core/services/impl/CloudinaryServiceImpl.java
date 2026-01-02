@@ -4,7 +4,7 @@ import com.luminesway.concursoadminstrator.modules.core.consts.FileConfigConsts;
 import com.luminesway.concursoadminstrator.modules.core.dtos.CloudinaryResDto;
 import com.luminesway.concursoadminstrator.modules.core.enums.FileType;
 import com.luminesway.concursoadminstrator.modules.core.services.UploadService;
-import com.luminesway.concursoadminstrator.shared.utils.Result;
+import com.luminesway.concursoadminstrator.shared.utils.SpringResult;
 import com.luminesway.concursoadminstrator.shared.utils.ResultParameters;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;
@@ -38,7 +38,7 @@ public class CloudinaryServiceImpl implements UploadService {
     }
 
     @Override
-    public Result<?> upload(MultipartFile file) {
+    public SpringResult<?> upload(MultipartFile file, FileType fileType) {
         try {
             MultipartBodyBuilder builder = new MultipartBodyBuilder();
 
@@ -50,7 +50,7 @@ public class CloudinaryServiceImpl implements UploadService {
                 }
             };
             log.info("Creating MultipartBodyBuilder");
-            builder.part("type", FileType.AUDIO.name());
+            builder.part("type", fileType.name());
             builder.part("file", resource)
                     .filename(Objects.requireNonNull(file.getOriginalFilename()))
                     .contentType(MediaType.parseMediaType(Objects.requireNonNull(file.getContentType())));
@@ -67,15 +67,15 @@ public class CloudinaryServiceImpl implements UploadService {
                     .bodyToMono(CloudinaryResDto.class)
                     .block();
 
-            return Result.success(ResultParameters.<CloudinaryResDto>builder().message("Archivo subido correctamente").result(response).build(), 201);
+            return SpringResult.success(ResultParameters.<CloudinaryResDto>builder().message("Archivo subido correctamente").result(response).build(), 201);
         }
         catch (IOException e) {
             log.error(e.getMessage());
-            return Result.error(ResultParameters.builder().message("Algo ha ocurrido en la subida del archivo").build(), 500);
+            return SpringResult.error(ResultParameters.builder().message("Algo ha ocurrido en la subida del archivo").build(), 500);
         }
         catch (Exception e) {
             log.error(e.getMessage());
-            return Result.error(ResultParameters.builder().message(e.getMessage()).build(), 500);
+            return SpringResult.error(ResultParameters.builder().message(e.getMessage()).build(), 500);
         }
     }
 }

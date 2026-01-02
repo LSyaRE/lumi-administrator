@@ -6,7 +6,7 @@ import com.luminesway.concursoadminstrator.modules.games.concurso.repositories.Q
 import com.luminesway.concursoadminstrator.modules.games.concurso.services.QuestionService;
 import com.luminesway.concursoadminstrator.shared.consts.EnglishConst;
 import com.luminesway.concursoadminstrator.shared.utils.Mapping;
-import com.luminesway.concursoadminstrator.shared.utils.Result;
+import com.luminesway.concursoadminstrator.shared.utils.SpringResult;
 import com.luminesway.concursoadminstrator.shared.utils.ResultParameters;
 import com.luminesway.concursoadminstrator.shared.utils.WeakMapping;
 import lombok.extern.log4j.Log4j2;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.luminesway.concursoadminstrator.shared.consts.GenericMessages.CONVERTING_QUESTION;
@@ -31,7 +30,7 @@ public class QuestionServiceImpl implements QuestionService {
         this.mapping = new WeakMapping();
     }
 
-    public Result<?> create(QuestionReqDto payload) {
+    public SpringResult<?> create(QuestionReqDto payload) {
         try {
             log.info(CONVERTING_QUESTION);
             Question question = mapping.execute(payload, Question.class);
@@ -40,30 +39,30 @@ public class QuestionServiceImpl implements QuestionService {
             Question savedQuestion = questionRepository.save(question);
             log.info("Question created");
             log.info(SENDING_RES);
-            return Result.success(ResultParameters.<Question>builder().result(savedQuestion).message("Se ha creado exitosamente la pregunta").build(), 201);
+            return SpringResult.success(ResultParameters.<Question>builder().result(savedQuestion).message("Question created successfully").build(), 201);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return Result.error(ResultParameters.builder().message("Algo ha ocurrido por favor informar a sistemas.").build(), 500);
+            log.error(e);
+            return SpringResult.error(ResultParameters.builder().message("Unexpected error while creating Question.").build(), 500);
         }
     }
 
-    public Result<?> findAll(Pageable pageable) {
+    public SpringResult<?> findAll(Pageable pageable) {
         Page<Question> questions = questionRepository.findAll(pageable);
-        return Result.success(ResultParameters.builder()
+        return SpringResult.success(ResultParameters.builder()
                 .message("Se han encontrado todas las preguntas")
                 .result(questions)
                 .build(), 200);
     }
 
 
-    public Result<?> update(UUID id, QuestionReqDto payload) {
+    public SpringResult<?> update(UUID id, QuestionReqDto payload) {
         log.info("Searching Question");
         Question question = questionRepository.findById(id).orElse(null);
 
         log.info("Validating if Question exists");
         if (question == null) {
-            return Result.error(ResultParameters.builder()
-                    .message("No se ha encontrado la pregunta")
+            return SpringResult.error(ResultParameters.builder()
+                    .message("Question not found")
                     .build(), 404);
         }
 
@@ -75,22 +74,22 @@ public class QuestionServiceImpl implements QuestionService {
         } catch (Exception e) {
             log.error("Error converting QuestionReqDto to Question or Saving Question");
             log.error(e.getMessage());
-            return Result.error(ResultParameters.builder()
-                    .message("Sucedio algo al transformar la informacion.")
+            return SpringResult.error(ResultParameters.builder()
+                    .message("Error converting the question or saving it.")
                     .build(), 500);
         }
         log.info(SENDING_RES);
-        return Result.success(ResultParameters.builder().
-                message("Se ha actualizado correctamente")
+        return SpringResult.success(ResultParameters.builder().
+                message("Updated successfully")
                 .build(),200);
     }
 
-    public Result<?> delete(UUID id) {
+    public SpringResult<?> delete(UUID id) {
         Question question = questionRepository.findById(id).orElse(null);
 
         if (question == null) {
-            return Result.error(ResultParameters.builder()
-                    .message("No se ha encontrado la pregunta")
+            return SpringResult.error(ResultParameters.builder()
+                    .message("Question not found")
                     .build(), 404);
         }
 
@@ -98,11 +97,11 @@ public class QuestionServiceImpl implements QuestionService {
         log.info("Deleting Question");
         questionRepository.save(question);
 
-        return Result.success(ResultParameters.builder().message("Se ha eliminado con exito").build(), 204);
+        return SpringResult.success(ResultParameters.builder().message("Deleted successfully").build(), 204);
     }
 
     @Override
-    public Result<?> findById(org.hibernate.validator.constraints.UUID id) {
+    public SpringResult<?> findById(org.hibernate.validator.constraints.UUID id) {
         return null;
     }
 }
