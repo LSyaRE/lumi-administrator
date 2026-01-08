@@ -1,5 +1,6 @@
 package com.luminesway.concursoadminstrator.shared.utils;
 
+import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

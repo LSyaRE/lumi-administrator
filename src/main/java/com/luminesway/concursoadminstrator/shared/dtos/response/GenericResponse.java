@@ -1,8 +1,7 @@
-package com.luminesway.concursoadminstrator.shared.utils;
+package com.luminesway.concursoadminstrator.shared.dtos.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 /**
  * Represents a generic response structure commonly used for HTTP responses.
@@ -17,7 +16,7 @@ public class
 
 GenericResponse<T> {
     private String message;
-    private HttpStatus status;
+    private int status;
     private int code;
     private T data;
 }

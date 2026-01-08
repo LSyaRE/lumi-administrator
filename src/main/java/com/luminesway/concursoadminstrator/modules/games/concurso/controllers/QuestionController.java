@@ -3,7 +3,7 @@ package com.luminesway.concursoadminstrator.modules.games.concurso.controllers;
 import com.luminesway.concursoadminstrator.modules.games.concurso.dtos.question.QuestionReqDto;
 import com.luminesway.concursoadminstrator.modules.games.concurso.services.QuestionService;
 import com.luminesway.concursoadminstrator.modules.games.concurso.services.impl.QuestionServiceImpl;
-import com.luminesway.concursoadminstrator.shared.utils.GenericResponse;
+import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
 import com.luminesway.concursoadminstrator.shared.utils.SpringResult;
 import com.luminesway.concursoadminstrator.shared.utils.ResultParameters;
 import jakarta.validation.Valid;
