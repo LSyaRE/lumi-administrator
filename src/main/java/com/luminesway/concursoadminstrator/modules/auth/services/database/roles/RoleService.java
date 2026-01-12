@@ -1,4 +1,4 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.roles;
+package com.luminesway.concursoadminstrator.modules.auth.services.database.roles;
 
 import org.springframework.stereotype.Service;
 

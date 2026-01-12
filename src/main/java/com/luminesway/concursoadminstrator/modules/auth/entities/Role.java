@@ -1,6 +1,7 @@
 package com.luminesway.concursoadminstrator.modules.auth.entities;
 
 import com.luminesway.concursoadminstrator.modules.core.consts.StatusConst;
+import com.luminesway.concursoadminstrator.shared.consts.EnglishConst;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,14 +10,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = "auth")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @CreatedDate
@@ -26,8 +28,11 @@ public class Role {
     @LastModifiedDate
     private Instant updatedAt;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
+    private String code;
 
     private String description;
 
@@ -39,5 +44,5 @@ public class Role {
     )
     private Set<Permission> permissions;
 
-    String status = StatusConst.ACTIVE;
+    String status = EnglishConst.ACTIVE;
 }

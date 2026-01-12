@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class RegisterRequest {
+    @NotNull(message = "Debes ingresar los datos personales")
     private PersonDto person;
     @Email(message = "Debes colocar un email valido")
     @NotEmpty

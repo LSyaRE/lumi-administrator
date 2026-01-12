@@ -3,7 +3,7 @@ package com.luminesway.concursoadminstrator.modules.auth.providers.jwt;
 
 
 import com.luminesway.concursoadminstrator.modules.auth.entities.User;
-import com.luminesway.concursoadminstrator.modules.auth.services.user.UserService;
+import com.luminesway.concursoadminstrator.modules.auth.services.database.user.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws IOException, jakarta.servlet.ServletException {
         String token = parseJwt(request);
         if (token != null && jwtProvider.validateToken(token)) {
-            Long userId = jwtProvider.getUserIdFromToken(token);
+            UUID userId = jwtProvider.getUserIdFromToken(token);
             User user = userService.loadUserById(userId);
             if (user != null) {
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(

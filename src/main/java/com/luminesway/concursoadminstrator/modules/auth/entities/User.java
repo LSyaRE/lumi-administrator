@@ -2,6 +2,7 @@ package com.luminesway.concursoadminstrator.modules.auth.entities;
 
 
 import com.luminesway.concursoadminstrator.modules.core.consts.StatusConst;
+import com.luminesway.concursoadminstrator.shared.consts.EnglishConst;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,14 +12,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "auth")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @CreatedDate
@@ -48,6 +50,8 @@ public class User {
     Person person = new Person();
 
 
+    @OneToMany(mappedBy = "user")
+    private Set<RefreshTokens> tokens;
 
-    String status = StatusConst.ACTIVE;
+    String status = EnglishConst.ACTIVE;
 }

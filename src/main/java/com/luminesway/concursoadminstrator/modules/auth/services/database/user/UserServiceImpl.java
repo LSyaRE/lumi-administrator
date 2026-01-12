@@ -1,15 +1,17 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.user;
+package com.luminesway.concursoadminstrator.modules.auth.services.database.user;
 
 
 import com.luminesway.concursoadminstrator.modules.core.consts.StatusConst;
 import com.luminesway.concursoadminstrator.modules.core.exceptions.NotFoundException;
 import com.luminesway.concursoadminstrator.modules.auth.entities.User;
 import com.luminesway.concursoadminstrator.modules.auth.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -29,12 +31,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public User update(Long id, User user) {
+    @Transactional
+    public User update(UUID id, User user) {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException("No se puede actualizar, el registro no existe");
         }
@@ -43,12 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public void delete(UUID id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Proyecto no encontrado"));
     }
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable);
     }
 
-    public User loadUserById(Long id) {
+    public User loadUserById(UUID id) {
         return userRepository.findById(id).orElse(null);
     }
 }

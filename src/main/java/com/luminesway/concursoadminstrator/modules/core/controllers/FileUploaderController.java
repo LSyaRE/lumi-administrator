@@ -2,22 +2,28 @@ package com.luminesway.concursoadminstrator.modules.core.controllers;
 
 import com.luminesway.concursoadminstrator.modules.core.enums.FileType;
 import com.luminesway.concursoadminstrator.modules.core.services.UploadService;
+import com.luminesway.concursoadminstrator.modules.core.services.fileuploader.FileUploader;
 import com.luminesway.concursoadminstrator.modules.core.services.impl.CloudinaryServiceImpl;
 import com.luminesway.concursoadminstrator.shared.utils.SpringResult;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/v1/upload")
+@RequestMapping("/upload")
 @Log4j2
 public class FileUploaderController {
     private final UploadService fileUploaderService;
 
-    public FileUploaderController(CloudinaryServiceImpl fileUploaderService) {
+    @Qualifier("digitalOceanImpl")
+    private final FileUploader<Object> fileUploader;
+
+    public FileUploaderController(CloudinaryServiceImpl fileUploaderService, FileUploader<Object> fileUploader) {
         this.fileUploaderService = fileUploaderService;
+        this.fileUploader = fileUploader;
     }
 
     /**
@@ -38,5 +44,16 @@ public class FileUploaderController {
         SpringResult<?> result =  fileUploaderService.upload(file, fileType);
         log.info(result.toString());
         return ResponseEntity.status(result.getCode()).body(result.toJson());
+    }
+
+
+    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadTest(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("fileType") FileType fileType) {
+        log.info("file");
+        log.info(file.getOriginalFilename());
+        Object result =  fileUploader.upload(file, fileType);
+        log.info(result.toString());
+        return ResponseEntity.ok(result);
     }
 }

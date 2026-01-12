@@ -1,7 +1,7 @@
 package com.luminesway.concursoadminstrator.modules.auth.dtos.request;
 
 
-import ec.yavirac.yavigestion.modules.administration.enums.BloodType;
+import com.luminesway.concursoadminstrator.modules.auth.enums.BloodType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

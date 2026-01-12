@@ -1,4 +1,4 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.permission;
+package com.luminesway.concursoadminstrator.modules.auth.services.bo.permission;
 
 
 import com.luminesway.concursoadminstrator.modules.auth.entities.Permission;
@@ -12,9 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
-public class PermissionService {
-
-
+public class PermissionServiceBO {
 
     public boolean hasPermission(String permission) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

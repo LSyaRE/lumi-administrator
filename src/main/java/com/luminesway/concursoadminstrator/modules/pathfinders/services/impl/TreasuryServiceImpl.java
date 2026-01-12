@@ -1,8 +1,9 @@
 package com.luminesway.concursoadminstrator.modules.pathfinders.services.impl;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class TreasuryServiceImpl {
 
     public void manageMoney(String account, Double amount){

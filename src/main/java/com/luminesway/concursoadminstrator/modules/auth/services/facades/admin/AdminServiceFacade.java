@@ -1,4 +1,4 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.admin;
+package com.luminesway.concursoadminstrator.modules.auth.services.facades.admin;
 
 
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericOnlyTextResponse;
@@ -11,12 +11,13 @@ import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public interface AdminService {
+public interface AdminServiceFacade {
     GenericPaginationResponse<RoleDTO> findAllRoles(Pageable pageable);
     GenericResponse<Role> createRole(Role role);
     GenericResponse<Permission> createPermission(Permission permission);
     GenericOnlyTextResponse addPermissionToRole(String roleName, String permissionName);
-
-    GenericOnlyTextResponse addRoleToUser(Long userId, AssignRoleDTO roles);
+    GenericOnlyTextResponse addRoleToUser(UUID userId, AssignRoleDTO roles);
 }

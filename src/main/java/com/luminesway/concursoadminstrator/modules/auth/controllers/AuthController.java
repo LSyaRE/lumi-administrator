@@ -1,12 +1,14 @@
 package com.luminesway.concursoadminstrator.modules.auth.controllers;
 
 
+import com.luminesway.concursoadminstrator.shared.dtos.request.GenericRequest;
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericOnlyTextResponse;
 import com.luminesway.concursoadminstrator.modules.auth.dtos.request.auth.AuthRequest;
 import com.luminesway.concursoadminstrator.modules.auth.dtos.request.auth.RegisterRequest;
 import com.luminesway.concursoadminstrator.modules.auth.dtos.response.AuthResponse;
-import com.luminesway.concursoadminstrator.modules.auth.services.authentication.AuthenticationService;
+import com.luminesway.concursoadminstrator.modules.auth.services.facades.authentication.AuthenticationService;
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +38,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<GenericResponse<AuthResponse>> login(@RequestBody AuthRequest req) {
-        log.info("El usuario {} esta intentando entrar al sistema", req.getEmail());
+    public ResponseEntity<GenericResponse<AuthResponse>> login(@Valid @RequestBody GenericRequest<AuthRequest> req) {
+        log.info("El usuario {} esta intentando entrar al sistema", req.getPayload().getEmail());
         GenericResponse<AuthResponse> response = authenticationService.login(req);
 
         return ResponseEntity
-                .status(response.getStatus())
+                .status(response.getCode())
                 .body(response);
     }
 }

@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 public class AssignRoleDTO {
-    List<Long> roleIds;
+    List<UUID> roleIds;
 }

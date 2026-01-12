@@ -2,9 +2,12 @@ package com.luminesway.concursoadminstrator.modules.auth.providers.jwt;
 
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public interface JwtProvider {
-    public String generateToken(Long userId);
-    public Long getUserIdFromToken(String token);
-    public boolean validateToken(String token);
+    String generateRefreshToken(UUID userId);
+    String generateAccessToken(UUID userId);
+    UUID getUserIdFromToken(String token);
+    boolean validateToken(String token);
 }

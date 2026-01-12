@@ -5,7 +5,9 @@ import com.luminesway.concursoadminstrator.modules.auth.entities.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface PersonRepository extends JpaRepository<Person,Long> {
-    Person findOneById(Long id);
+public interface PersonRepository extends JpaRepository<Person, UUID> {
+    Person findOneById(UUID id);
 }

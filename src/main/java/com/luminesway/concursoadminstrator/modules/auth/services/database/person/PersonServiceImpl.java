@@ -1,10 +1,12 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.person;
+package com.luminesway.concursoadminstrator.modules.auth.services.database.person;
 
 
 import com.luminesway.concursoadminstrator.modules.auth.entities.Person;
 import com.luminesway.concursoadminstrator.modules.auth.repositories.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -17,7 +19,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person findOneById(Long id) {
+    public Person findOneById(UUID id) {
         return personRepository.findOneById(id);
     }
 
@@ -27,12 +29,12 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person delete(Long id) {
+    public Person delete(UUID id) {
         return null;
     }
 
     @Override
-    public Person update(Long id, Person person) {
+    public Person update(UUID id, Person person) {
         return null;
     }
 }

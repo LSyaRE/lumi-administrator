@@ -1,4 +1,4 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.admin;
+package com.luminesway.concursoadminstrator.modules.auth.services.facades.admin;
 
 
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericOnlyTextResponse;
@@ -20,9 +20,10 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminServiceFacade {
     private final RoleRepository roleRepo;
     private final PermissionRepository permissionRepo;
     private final UserRepository userRepo;
@@ -57,32 +58,35 @@ public class AdminServiceImpl implements AdminService {
                 .build()).getBody();
     }
 
+    @Override
     public GenericResponse<Role> createRole(Role role) {
         if (roleRepo.findByName(role.getName()).isPresent()) return GenericResponse.<Role>builder()
                 .message("El rol que se desea crear ya existe")
-                .status(400)
+                .code(400)
                 .build();
         Role saved = roleRepo.save(role);
         return GenericResponse.<Role>builder()
-                .status(201)
+                .code(201)
                 .message("Rol creado correctamente")
                 .data(saved).build();
     }
-    
+
+    @Override
     public GenericResponse<Permission> createPermission(Permission permission) {
         if (permissionRepo.findByName(permission.getName()).isPresent()) return GenericResponse.<Permission>builder()
-                .status(400)
+                .code(400)
                 .message("El permiso que desea crear ya existe")
                 .build();
         Permission saved = permissionRepo.save(permission);
         return GenericResponse.<Permission>builder()
-                .status(201)
+                .code(201)
                 .message("Permiso creado correctamente")
                 .data(saved)
                 .build();
     }
 
 
+    @Override
     public GenericOnlyTextResponse addPermissionToRole(String roleName, String permissionName) {
 
         Optional<Role> ro = roleRepo.findByName(roleName);
@@ -99,7 +103,8 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    public GenericOnlyTextResponse addRoleToUser(Long userId, AssignRoleDTO roles) {
+    @Override
+    public GenericOnlyTextResponse addRoleToUser(UUID userId, AssignRoleDTO roles) {
         Optional<User> ou = userRepo.findById(userId);
         if (ou.isEmpty()) return GenericOnlyTextResponse.builder().status(404).message("Usuario no encontrado").build();
         List<Role> foundRoles = roleRepo.findAllById(roles.getRoleIds());

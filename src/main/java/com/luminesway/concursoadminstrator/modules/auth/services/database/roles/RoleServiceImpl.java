@@ -1,6 +1,6 @@
-package com.luminesway.concursoadminstrator.modules.auth.services.roles;
+package com.luminesway.concursoadminstrator.modules.auth.services.database.roles;
 
-import ec.yavirac.yavigestion.modules.auth.services.user.UserService;
+import com.luminesway.concursoadminstrator.modules.auth.services.database.user.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
