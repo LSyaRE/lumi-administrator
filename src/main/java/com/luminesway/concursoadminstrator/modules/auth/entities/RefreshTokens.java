@@ -29,6 +29,7 @@ public class RefreshTokens {
     @LastModifiedDate
     private Instant updatedAt;
 
+    @Column(length = 500, nullable = false)
     private String token;
     private String ipUser;
 

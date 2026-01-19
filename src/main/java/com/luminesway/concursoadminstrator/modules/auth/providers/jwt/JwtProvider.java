@@ -9,5 +9,8 @@ public interface JwtProvider {
     String generateRefreshToken(UUID userId);
     String generateAccessToken(UUID userId);
     UUID getUserIdFromToken(String token);
+    UUID getUserIdFromRefreshToken(String token);
+
     boolean validateToken(String token);
+    boolean validateRefreshToken(String token);
 }

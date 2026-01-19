@@ -2,7 +2,6 @@ package com.luminesway.concursoadminstrator.modules.auth.entities;
 
 
 import com.luminesway.concursoadminstrator.modules.auth.enums.TypeIdentification;
-import com.luminesway.concursoadminstrator.modules.core.consts.StatusConst;
 import com.luminesway.concursoadminstrator.modules.auth.enums.BloodType;
 import com.luminesway.concursoadminstrator.shared.consts.EnglishConst;
 import jakarta.persistence.*;

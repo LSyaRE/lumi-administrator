@@ -1,6 +1,7 @@
 package com.luminesway.concursoadminstrator.modules.auth.services.facades.authentication;
 
 
+import com.luminesway.concursoadminstrator.modules.auth.dtos.response.LoginResponse;
 import com.luminesway.concursoadminstrator.shared.dtos.request.GenericRequest;
 import com.luminesway.concursoadminstrator.shared.dtos.request.GenericRequestIp;
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
@@ -8,6 +9,7 @@ import com.luminesway.concursoadminstrator.shared.dtos.response.GenericOnlyTextR
 import com.luminesway.concursoadminstrator.modules.auth.dtos.request.auth.AuthRequest;
 import com.luminesway.concursoadminstrator.modules.auth.dtos.request.auth.RegisterRequest;
 import com.luminesway.concursoadminstrator.modules.auth.dtos.response.AuthResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,5 +20,6 @@ public interface AuthenticationService {
     GenericOnlyTextResponse register(RegisterRequest request);
     boolean isRefreshTokenValid(String refreshToken);
     Object changePassword(String oldPassword, String newPassword);
-    GenericOnlyTextResponse logout(UUID id, GenericRequestIp request);
+    GenericResponse<LoginResponse> refresh(HttpServletRequest token);
+    GenericOnlyTextResponse logout(HttpServletRequest req, GenericRequestIp request);
 }

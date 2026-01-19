@@ -24,6 +24,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
+    public List<RefreshTokens> findAllByUser(User user) {
+        return repository.findAllByStatusAndUser(EnglishConst.ACTIVE, user);
+    }
+
+    @Override
     public List<RefreshTokens> findAllByIpUserAndUser(String ipUser, User user) {
         return repository.findAllByStatusAndIpUserAndUser(EnglishConst.ACTIVE, ipUser, user);
     }

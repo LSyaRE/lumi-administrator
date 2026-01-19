@@ -1,12 +1,12 @@
 package com.luminesway.concursoadminstrator.modules.auth.entities;
 
-import com.luminesway.concursoadminstrator.modules.core.consts.StatusConst;
 import com.luminesway.concursoadminstrator.shared.consts.EnglishConst;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.Instant;
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Table(name = "roles", schema = "auth")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Role {
+public class Role implements GrantedAuthority {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
@@ -45,4 +45,9 @@ public class Role {
     private Set<Permission> permissions;
 
     String status = EnglishConst.ACTIVE;
+
+    @Override
+    public String getAuthority() {
+        return code;
+    }
 }

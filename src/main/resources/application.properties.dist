@@ -5,13 +5,15 @@ server.servlet.context-path=/lumi
 
 
 # Postgres config
-spring.datasource.url=${POSTGRES_URL:jdbc:postgresql://localhost:5433/concurso_2}
-spring.datasource.username=${POSTGRES_USER:postgres}
-spring.datasource.password=${POSTGRES_PASS:postgres}
+spring.datasource.url=${POSTGRES_URL:jdbc:postgresql://localhost:5432/iglesia}
+spring.datasource.username=${POSTGRES_USER:iglesia}
+spring.datasource.password=${POSTGRES_PASS:iglesia}
 spring.jpa.hibernate.ddl-auto=update
 
+
 jwt.secret=${SECRET_KEY:unaClaveSuperSecretaYLargaDeAlMenos32Caracteres!!}
-jwt.access.expiration=${AC_EXPIRATION:900000}
+jwt.refresh.secret=${RT_SECRET_KEY:RLjnJqNFVTXEcexqLRkztQKeEBvQhSdQ}
+jwt.access.expiration=${AC_EXPIRATION:300000}
 jwt.refresh.expiration=${RT_EXPIRATION:604800000}
 
 # File uploading
@@ -20,4 +22,18 @@ file.core.upload.path=${UPLOAD_PATH:/upload}
 file.core.upload.header=${UPLOAD_HEADER:x-api-key}
 file.core.upload.secret=${UPLOAD_KEY:your_api_key_here}
 
+spring.servlet.multipart.max-file-size=2GB
+spring.servlet.multipart.max-request-size=2GB
+
 api.url.front=${URL_FRONT:http://localhost:4200}
+
+
+# Digital Ocean or Amazon S3 support
+file.storage.bucket=${UPLOAD_BUCKET:bucket}
+file.storage.origin.url=${URL_ORIGIN:https://sfo3.yourbucketprovider.com}
+file.storage.origin.key=${BUCKET_ACCESS_KEY:bucket}
+file.storage.secret=${BUCKET_ACCESS_KEY:bucket}
+file.storage.region=${BUCKET_REGION:sfo3}
+
+# Cryptography
+security.crypto.aes.key=${CRYPTO_SECRET:tcFrECjEgmaEwexDwyFLCFphCVCPrwVa}

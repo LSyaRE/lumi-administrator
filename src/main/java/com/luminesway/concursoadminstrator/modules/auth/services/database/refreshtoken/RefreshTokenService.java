@@ -10,6 +10,8 @@ import java.util.List;
 public interface RefreshTokenService {
     RefreshTokens save(RefreshTokens refreshTokens);
 
+    List<RefreshTokens> findAllByUser(User user);
+
     List<RefreshTokens> findAllByIpUserAndUser(String ipUser, User user);
     List<RefreshTokens> saveAll(List<RefreshTokens> refreshTokens);
 }

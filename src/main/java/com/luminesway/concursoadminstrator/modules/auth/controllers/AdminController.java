@@ -23,12 +23,12 @@ import java.util.UUID;
 @RequestMapping("/admin")
 @Log4j2
 public class AdminController {
-    @Qualifier("adminServiceImpl")
     private final AdminServiceFacade adminService;
 
-    public AdminController(AdminServiceFacade adminService) {
+    public AdminController(@Qualifier("adminServiceImpl") AdminServiceFacade adminService) {
         this.adminService = adminService;
     }
+
 
     @GetMapping("/roles")
     @HasPermission("roles:find_all")

@@ -25,7 +25,7 @@ public class PermissionServiceBO {
     public Set<String> getEffectivePermissions(User user) {
         if (user == null) return Set.of();
         boolean isAdmin = user.getRoles().stream()
-                .map(Role::getName)
+                .map(Role::getCode)
                 .anyMatch(rn -> rn.equalsIgnoreCase("ROLE_ADMIN") || rn.equalsIgnoreCase("admin"));
 
         if (isAdmin) {

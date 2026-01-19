@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface RefreshTokenRepository  extends JpaRepository<RefreshTokens, UUID> {
     Page<RefreshTokens> findAllByStatus(Pageable pageable,String status);
     List<RefreshTokens> findAllByStatusAndIpUserAndUser(String status, String ipUser, User user);
+    List<RefreshTokens> findAllByStatusAndUser(String status, User user);
 }
