@@ -8,7 +8,7 @@ server.servlet.context-path=/lumi
 spring.datasource.url=${POSTGRES_URL:jdbc:postgresql://localhost:5432/iglesia}
 spring.datasource.username=${POSTGRES_USER:iglesia}
 spring.datasource.password=${POSTGRES_PASS:iglesia}
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=${DATABASE_DDL:update}
 
 
 jwt.secret=${SECRET_KEY:unaClaveSuperSecretaYLargaDeAlMenos32Caracteres!!}
