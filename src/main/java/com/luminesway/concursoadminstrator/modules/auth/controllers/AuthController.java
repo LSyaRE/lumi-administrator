@@ -10,6 +10,7 @@ import com.luminesway.concursoadminstrator.modules.auth.dtos.request.auth.Regist
 import com.luminesway.concursoadminstrator.modules.auth.dtos.response.AuthResponse;
 import com.luminesway.concursoadminstrator.modules.auth.services.facades.authentication.AuthenticationService;
 import com.luminesway.concursoadminstrator.shared.dtos.response.GenericResponse;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -44,13 +45,15 @@ public class AuthController {
     public ResponseEntity<GenericResponse<LoginResponse>> login(@Valid @RequestBody GenericRequest<AuthRequest> req,  HttpServletResponse res) {
         log.info("El usuario {} esta intentando entrar al sistema", req.getPayload().getEmail());
         GenericResponse<AuthResponse> response = authenticationService.login(req);
-        res.addCookie(response.getData().getRefreshToken());
+        Cookie cookie = response.getData() != null ? response.getData().getRefreshToken() : null;
+        String refreshToken = response.getData() != null ? response.getData().getToken() : null;
+        if(cookie != null) res.addCookie(cookie);
         return ResponseEntity
                 .status(response.getCode())
                 .body(GenericResponse.<LoginResponse>builder()
                         .message(response.getMessage())
                         .code(response.getCode())
-                        .data(new LoginResponse(response.getData().getToken()))
+                        .data(new LoginResponse(refreshToken))
                         .build()
                 );
     }
