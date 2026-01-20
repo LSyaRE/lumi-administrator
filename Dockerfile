@@ -2,9 +2,6 @@
 FROM maven:3.9.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
-# Copiamos application.properties.dist a application.properties
-RUN cp src/main/resources/application.properties.dist \
-       src/main/resources/application.properties
 
 # Copiamos primero los archivos necesarios para aprovechar la caché
 COPY pom.xml ./
