@@ -2,6 +2,7 @@ package com.luminesway.concursoadminstrator.config;
 
 
 import com.luminesway.concursoadminstrator.shared.dtos.response.ErrorResponse;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,19 @@ public class GlobalExceptionHandler {
 //    }
 
 
+
+
+
+    @ExceptionHandler(SignatureException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<ErrorResponse> handleJwtException(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "Sesion invalida.",
+                "La sesion es invalida. Por favor vuelva a iniciar sesion",
+                null
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
 
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -166,10 +166,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String validatedRefreshToken = refreshToken.get();
         UUID userId = jwtProvider.getUserIdFromRefreshToken(validatedRefreshToken);
         User user = userService.loadUserById(userId);
+        List<RefreshTokens> rtTokens = refreshTokenService.findAllByUser(user);
+
+        if(rtTokens.isEmpty()) {
+            return GenericResponse
+                    .<LoginResponse>builder()
+                    .message("La sesion es invalida ")
+                    .code(401)
+                    .build();
+        }
 
         if(!jwtProvider.validateRefreshToken(validatedRefreshToken)) {
 
-            List<RefreshTokens> rtTokens = refreshTokenService.findAllByUser(user);
             List<RefreshTokens> tokens = rtTokens.stream()
                     .filter(rt -> {
                         String decryptedToken = crypto.decrypt(rt.getToken());
